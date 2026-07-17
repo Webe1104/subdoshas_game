@@ -47,7 +47,7 @@ export default function Home() {
 
       <div className="relative py-4" style={{ height: totalHeight }}>
         <svg
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 z-0"
           width="100%"
           height={totalHeight}
           viewBox={`0 0 100 ${totalHeight}`}
@@ -81,7 +81,7 @@ export default function Home() {
           return (
             <div
               key={lesson.id}
-              className="absolute top-0"
+              className="absolute top-0 z-10"
               style={{ left: `${X_PERCENT[i % X_PERCENT.length]}%`, top: i * SLOT_HEIGHT, transform: "translateX(-50%)" }}
             >
               <LessonNode
