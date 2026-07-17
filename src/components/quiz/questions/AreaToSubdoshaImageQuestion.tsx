@@ -36,9 +36,9 @@ export function AreaToSubdoshaImageQuestion({ question, onCorrect, onMiss }: Pro
             <Image
               src={subdoshaAreaImage(id)}
               alt={SUBDOSHAS[id].area}
-              width={400}
-              height={364}
-              className="h-48 w-full rounded-xl object-cover"
+              width={320}
+              height={292}
+              className="aspect-[320/292] w-full rounded-xl bg-white object-contain dark:bg-white/90"
             />
           </QuestionOptionButton>
         ))}

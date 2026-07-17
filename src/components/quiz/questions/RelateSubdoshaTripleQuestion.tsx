@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { SUBDOSHAS, subdoshaAreaImage, type SubdoshaId } from "@/data/subdoshas";
 import type { RelateSubdoshaTripleQuestion as Q } from "@/lib/quiz/types";
@@ -17,16 +17,18 @@ export function RelateSubdoshaTripleQuestion({ question, onCorrect, onMiss }: Pr
   const doshaColor = `var(--color-${subdosha.doshaId}-500)`;
   const [areaDone, setAreaDone] = useState(false);
   const [fnDone, setFnDone] = useState(false);
+  const completedRef = useRef(false);
 
-  function handleAreaCorrect() {
-    setAreaDone(true);
-    if (fnDone) onCorrect([question.subdoshaId]);
-  }
-
-  function handleFnCorrect() {
-    setFnDone(true);
-    if (areaDone) onCorrect([question.subdoshaId]);
-  }
+  // Both option buttons delay calling onCorrectClick internally (for the
+  // shake/sparks celebration), so checking "is the other one already done" inside
+  // the click handler itself would read a stale closure if both are answered
+  // around the same time. Watching the actual state instead avoids that.
+  useEffect(() => {
+    if (areaDone && fnDone && !completedRef.current) {
+      completedRef.current = true;
+      onCorrect([question.subdoshaId]);
+    }
+  }, [areaDone, fnDone, onCorrect, question.subdoshaId]);
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -47,16 +49,16 @@ export function RelateSubdoshaTripleQuestion({ question, onCorrect, onMiss }: Pr
                 disabled={areaDone && !isCorrectOption}
                 locked={areaDone && isCorrectOption}
                 accentColor={doshaColor}
-                onCorrectClick={handleAreaCorrect}
+                onCorrectClick={() => setAreaDone(true)}
                 onWrongClick={() => onMiss([question.subdoshaId])}
                 className="flex flex-col items-center gap-2 !p-2"
               >
                 <Image
                   src={subdoshaAreaImage(id)}
                   alt={SUBDOSHAS[id].area}
-                  width={300}
-                  height={273}
-                  className="h-28 w-full rounded-xl object-cover"
+                  width={320}
+                  height={292}
+                  className="aspect-[320/292] w-full rounded-xl bg-white object-contain dark:bg-white/90"
                 />
               </QuestionOptionButton>
             );
@@ -76,7 +78,7 @@ export function RelateSubdoshaTripleQuestion({ question, onCorrect, onMiss }: Pr
                 disabled={fnDone && !isCorrectOption}
                 locked={fnDone && isCorrectOption}
                 accentColor={doshaColor}
-                onCorrectClick={handleFnCorrect}
+                onCorrectClick={() => setFnDone(true)}
                 onWrongClick={() => onMiss([question.subdoshaId])}
               >
                 {SUBDOSHAS[id].fn}

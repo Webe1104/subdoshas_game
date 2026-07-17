@@ -10,9 +10,10 @@ interface Props {
   xpTotal: number;
   streak: number;
   onRestart: () => void;
+  onBackToLessons: () => void;
 }
 
-export function VictoryScreen({ xpTotal, streak, onRestart }: Props) {
+export function VictoryScreen({ xpTotal, streak, onRestart, onBackToLessons }: Props) {
   return (
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 overflow-hidden px-6 text-center"
@@ -71,15 +72,28 @@ export function VictoryScreen({ xpTotal, streak, onRestart }: Props) {
 
       <motion.button
         type="button"
+        onClick={onBackToLessons}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.75 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.96 }}
+        className="relative z-10 mt-2 rounded-full border-2 border-white/70 px-8 py-2.5 font-bold text-white transition-colors hover:bg-white/10"
+      >
+        Volver a lecciones
+      </motion.button>
+
+      <motion.button
+        type="button"
         onClick={onRestart}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0, scale: [1, 1.06, 1] }}
         transition={{
-          opacity: { delay: 0.8 },
-          y: { delay: 0.8 },
-          scale: { duration: 1.6, repeat: Infinity, ease: "easeInOut", delay: 1.2 },
+          opacity: { delay: 0.9 },
+          y: { delay: 0.9 },
+          scale: { duration: 1.6, repeat: Infinity, ease: "easeInOut", delay: 1.3 },
         }}
-        className="relative z-10 mt-2 rounded-full bg-white px-8 py-3 font-bold text-[var(--color-pitta-600)] shadow-xl"
+        className="relative z-10 rounded-full bg-white px-8 py-3 font-bold text-[var(--color-pitta-600)] shadow-xl"
       >
         Volver a empezar
       </motion.button>

@@ -91,6 +91,7 @@ function LessonRunner({ lesson }: { lesson: LessonDefinition }) {
             progress.resetProgress();
             router.push("/");
           }}
+          onBackToLessons={() => router.push("/")}
         />
       );
     }
