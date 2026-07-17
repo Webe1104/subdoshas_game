@@ -29,7 +29,7 @@ export function LessonNode({ href, title, doshaId, status }: Props) {
       whileTap={status !== "locked" ? { scale: 0.94 } : undefined}
       animate={status === "current" ? { scale: [1, 1.07, 1] } : undefined}
       transition={status === "current" ? { duration: 1.6, repeat: Infinity, ease: "easeInOut" } : undefined}
-      className="relative flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg ring-2 ring-black/5 dark:bg-white/10"
+      className="relative flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg ring-2 ring-black/5 dark:bg-zinc-900"
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- local trusted SVG/WebP, next/image blocks SVG by default */}
       <img
